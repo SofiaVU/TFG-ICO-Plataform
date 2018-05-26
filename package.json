@@ -1,0 +1,41 @@
+{
+  "name": "ico_plataform",
+  "version": "1.0.0",
+  "description": "his project creates a lataform to deploy ICOs and also allowsinvestors to invest money in those ICOs",
+  "main": "pages/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SofiaVU/TFG-ICO-Plataform.git"
+  },
+  "keywords": [
+    "Blockchain",
+    "Ethereum",
+    "ICO",
+    "React",
+    "Truffle",
+    "Web3"
+  ],
+  "author": "Sofía Vidal Urriza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SofiaVU/TFG-ICO-Plataform/issues"
+  },
+  "homepage": "https://github.com/SofiaVU/TFG-ICO-Plataform#readme",
+  "dependencies": {
+    "next": "^6.0.3",
+    "react": "^16.4.0",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.4.0",
+    "truffle-contract": "^3.0.5",
+    "web3": "^0.19.1"
+  }
+}
