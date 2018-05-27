@@ -62,9 +62,12 @@ export default class IcoDetail extends React.Component {
     }
 
     transfer(){
-    	// function transfer( address _to, uint256 _value) public
-    	//this.props.ERC20contrato;
-    	//enviar a index el contrato del ERC20 para hacer ahi la transfer
+
+        // enviamos al componente lista el ID de la ICO sobre la que se ha pulsado
+        //Ico list enviará a index el contratoERC20 de esta ico
+        //console.log("TRAZA 1");
+        //console.log(this.props.ico.toNumber());
+        this.props.getID(this.props.ico.toNumber());
 
     }
    
@@ -87,7 +90,7 @@ export default class IcoDetail extends React.Component {
                 <td>{this.state.closingDate}</td>
                 <td>{this.state.token}</td>
                 <td>{this.state.price} ethers/toker</td>
-                <td><Button onclick={this.transfer}>Buy tokens</Button></td>
+                <td><Button onClick={this.transfer}>Buy tokens</Button></td>
             </tr>
     	);
 	}

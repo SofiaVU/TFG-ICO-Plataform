@@ -37,7 +37,7 @@ export default class Formu extends React.Component {
         if (this.handleDates(inicio, fin) ) {
             ICO.OpeningDate = inicio;
             ICO.ClossingDate = fin;
-            console.log ("FECHAS OK")
+            //console.log ("FECHAS OK")
         } else { console.log("FECHAS NOT OK"); }
         
 

@@ -9,7 +9,23 @@ export default class IcoList extends React.Component {
     * constructor que maneja las props recibidas y la enví al componente padre
     */
     constructor(props){
-        super(props);        
+        super(props); 
+        this.getIDfromDetail = this.getIDfromDetail.bind(this);      
+    }
+
+    /*
+    *
+    */
+    getIDfromDetail(id){
+
+        // Recibe de IcoDetail el id de la ICO sobre la que se ha pulsado
+        // envia a index el contratoERC20 de dicha ICO
+        //console.log("TRAZA 2");
+        console.log(id);
+        this.props.getERC20contract(this.props.arrayERC20[id]);
+        //console.log("TRAZA 3");
+        //console.log(this.props.arrayERC20[id]);
+
     }
 
     /*
@@ -27,7 +43,7 @@ export default class IcoList extends React.Component {
         let lista = [];
 
     	lista = this.props.ICOarray.map((icoID,index) => {
-    		return(<IcoDetail key={index} ico={icoID} instancia={this.props.instancia} ERC20contrato={this.props.arrayERC20[icoID]}/>);
+    		return(<IcoDetail key={index} ico={icoID} instancia={this.props.instancia} getID={this.getIDfromDetail}/>);
             //return(<IcoDetail key={index} ico={icoAddr} instancia={this.props.instancia} />);
 
     	});

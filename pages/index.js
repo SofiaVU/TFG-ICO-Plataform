@@ -24,7 +24,7 @@ if (typeof web3 !== 'undefined') {
 
 var account = web3.eth.accounts[0];
 
-var arrayERC20 = []; // guarda los contratos de los tokens creados
+var arrayERC20 = new Array(); // guarda los contratos de los tokens creados
 
 export default class App extends React.Component {
 
@@ -46,6 +46,7 @@ export default class App extends React.Component {
 		this.registerNewICO = this.registerNewICO.bind(this);
 		this.deployNewERC20 = this.deployNewERC20.bind(this);
 		this.updateList = this.updateList.bind(this);
+		this.executeTransfer = this.executeTransfer.bind(this);
 	}
 
 	/*
@@ -151,14 +152,14 @@ export default class App extends React.Component {
 		
 		var theERC20 = contract(contractERC20);
 
-		arrayERC20.push(theERC20);
-
 		theERC20.setProvider(web3.currentProvider);
 
 		// CONTRATO		
 		//createERC20 (string tName, string  tSymbol, uint nDecimals, uint256  initialSup, uint256 p_buy, address owner)
 		var contrato = await theERC20.deployed();
 		//console.log("Contrato =", contrato);
+		arrayERC20.push(contrato);
+		//console.log("array lenght" + arrayERC20.length);
 		
 		contrato.setERC2Params(info.tokenName, info.symbol, info.tokenDecimals, info.tokenTotalSupply, info.tokenPrice, account,
 			{from: account, gas:200000}).then((res, err) => {
@@ -184,10 +185,6 @@ export default class App extends React.Component {
 				//console.log(event);
 				console.log(">>>>> TANSFER MADE <<<<<");
 				console.log("Anamount of " + event.args.value + " tokens have been transfered to " + event.args.to);
-
-				var icoId = event.args.id;
-
-				console.log("The last ICO was given the following ID: " + icoId);
 			}
 		});
 		console.log("eventTransfer watch has been started");
@@ -209,6 +206,18 @@ export default class App extends React.Component {
 		//console.log(idArray);
 
 		this.setState({ id_Array: idArray});
+
+	}
+
+
+	/*
+	*
+	*/
+	executeTransfer(contract){
+
+		//console.log("TRAZA 4");
+		//console.log(contract);
+		contract.transfer(account, 100, {from: account, gas:200000});
 
 	}
 
@@ -243,7 +252,7 @@ export default class App extends React.Component {
 				</Col>
 
 				<Col md={7} >
-						<IcoList ICOarray={this.state.id_Array}  instancia={this.state.contrato} arrayERC20={arrayERC20}/>
+						<IcoList ICOarray={this.state.id_Array}  instancia={this.state.contrato} arrayERC20={arrayERC20} getERC20contract={this.executeTransfer}/>
 					</Col>
 
 			</div>
