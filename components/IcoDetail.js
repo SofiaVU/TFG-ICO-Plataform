@@ -1,5 +1,9 @@
 import React from 'react';
 import {ListGroupItem, Button} from 'react-bootstrap';
+import { default as contract } from 'truffle-contract';
+
+import { default as Web3} from 'web3'
+import contractERC20 from '../build/contracts/createERC20_v2.json'
 
 export default class IcoDetail extends React.Component {
 
@@ -18,7 +22,7 @@ export default class IcoDetail extends React.Component {
         this.getName = this.getName.bind(this);
         this.getOpeningDate = this.getOpeningDate.bind(this);
         this.getClosingDate = this.getClosingDate.bind(this);
-        this.getPrice = this.getPrice.bind(this);
+        //this.getPrice = this.getPrice.bind(this);
         this.transfer = this.transfer.bind(this);
              
     }
@@ -46,18 +50,29 @@ export default class IcoDetail extends React.Component {
     	this.setState({closingDate: date});
     }
 
-    async getPrice() {
+    /*async getPrice() {
     	
     	var tprice = await this.props.instancia.getTokenPriceByID.call(this.props.ico);
     	tprice = tprice.toNumber();
     	this.setState({price: tprice});
 
-    }
+    }*/
 
     async getTokenName() {
     	
-    	var token = await this.props.instancia.getTokenNameByID.call(this.props.ico);
-    	this.setState({token: token});
+    	var token = await this.props.instancia.getTokenAddressByID.call(this.props.ico);   
+
+        var theERC20 = contract(contractERC20);
+        theERC20.setProvider(web3.currentProvider);
+
+        var instance = theERC20.at(token);
+        var tokName = await instance.tokenName();
+        var tokPrice = await instance.buyPrice();
+        var tprice = tokPrice.toNumber();
+    	this.setState({
+            token: tokName,
+            price: tprice,
+        });
 
     }
 
@@ -78,10 +93,10 @@ export default class IcoDetail extends React.Component {
         
         if(this.state.name == null && this.state.tokenName == null && this.state.openingDate == null){
             this.getName();
-            this.getTokenName(ico);
+            this.getTokenName();
             this.getOpeningDate();
             this.getClosingDate();
-            this.getPrice();
+            //this.getPrice();
         }
     	return(
     		<tr>

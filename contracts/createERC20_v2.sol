@@ -32,7 +32,8 @@ contract createERC20_v2 {
 	/*
 	* the constructor function of our Token smart contract
 	*/
-	function createERC20_v2() public {
+	//function createERC20_v2() public {
+	constructor() public {
 	    icoOwner = msg.sender;
 	}
 	
@@ -53,7 +54,7 @@ contract createERC20_v2 {
 	     
 	     balances[icoOwner] = totalSupply; // es lo mismo poner tokenOwner que msgSender por como está progrmado???
 	     
-	     CreateToken(tName, tSymbol, nDecimals, initialSup, p_buy, owner);
+	     emit CreateToken(tName, tSymbol, nDecimals, initialSup, p_buy, owner);
 	 }
 	 
 	 /*
@@ -83,7 +84,7 @@ contract createERC20_v2 {
         balances[_from] -= _value; // Subtract from the sender
         balances[_to] += _value;// Add the same to the recipient
         
-        Transfer(_from, _to, _value); // emit event
+        emit Transfer(_from, _to, _value); // emit event
         
         // Asserts are used to use static analysis to find bugs in your code. They should never fail
         assert(balances[_from] + balances[_to] == previousBalances);
@@ -102,7 +103,7 @@ contract createERC20_v2 {
     
     
     /*
-    * Funcion que actualizael precio del token creado 
+    * Funcion que actualiza el precio del token creado 
     * solo el creador de la ICO puede actualizar este valor 
     */
     function setPrices (uint256 newBuyPrice) onlyOwner public {
@@ -117,7 +118,7 @@ contract createERC20_v2 {
         uint amount = msg.value / buyPrice; // calculates the amoun
         _transfer (this, msg.sender, amount);
         
-        Transfer(this, msg.sender, amount); // execute an event reflecting the change
+        emit Transfer(this, msg.sender, amount); // execute an event reflecting the change
     }
     
     /*

@@ -88,7 +88,7 @@ export default class App extends React.Component {
 				last.clossingDate = event.args.clossing;
 				last.owner = event.args.icoOwner;
 
-				console.log(last.valueOf());
+				//console.log(last.valueOf());
 
 
 	            this.setState({
@@ -111,16 +111,17 @@ export default class App extends React.Component {
 	/*
 	* Metodo que recibe props del componente Form con la info introducida
 	*/
-	formCliked (formInfo) {
+	async formCliked (formInfo) {
 
 		console.log("formInfo recieved");
 		//console.log(formInfo);
 
-		// Guardar nueva ICO en Smart Contract IcoDDBB.sol
-		this.registerNewICO(formInfo);
-
 		// Desplegar ERC20 de la new ICO
-		this.deployNewERC20(formInfo);	
+		var tokenAddr =  await this.deployNewERC20(formInfo);
+		console.log("TRAZA 2: " + tokenAddr);	
+
+		// Guardar nueva ICO en Smart Contract IcoDDBB.sol
+		this.registerNewICO(formInfo, tokenAddr);		
 
 		// Actualizar listado de ICos
 		this.updateList();
@@ -130,12 +131,17 @@ export default class App extends React.Component {
 	/*
 	* Se conecta con la blockchain para interactuar con el smart contract IcoDDBB.sol
 	*/
-	registerNewICO(info) {
+	registerNewICO(info, tokenAdd) {
 		console.log(">>>>REGISTER<<<<<<");
 		//console.log(info);
+		
+		var add = tokenAdd;
+		console.log("AAAAAQUIIIIIIIII");
+		console.log(add);
 
 		//register(string name, string opppening, string clossing)
-		this.state.contrato.register(info.icoName, info.tokenName, info.OpeningDate, info.ClossingDate, info.tokenPrice, {from: account, gas:2000000})
+		//register(string name, address token,  string opppening, string clossing)
+		this.state.contrato.register(info.icoName, add, info.OpeningDate, info.ClossingDate, {from: account, gas:2000000})
 		.then(res => {
 			console.log(">>>>>>>>>>>> +1 succes");
 		})
@@ -155,26 +161,39 @@ export default class App extends React.Component {
 		var theERC20 = contract(contractERC20);
 
 		theERC20.setProvider(web3.currentProvider);
-
-		// CONTRATO		
-		//createERC20 (string tName, string  tSymbol, uint nDecimals, uint256  initialSup, uint256 p_buy, address owner)
-		var contrato = await theERC20.deployed();
-		//console.log("Contrato =", contrato);
-		arrayERC20.push(contrato);
-		//console.log("array lenght" + arrayERC20.length);
 		
-		contrato.setERC2Params(info.tokenName, info.symbol, info.tokenDecimals, info.tokenTotalSupply, info.tokenPrice, account,
+
+		// CONTRATO	
+		// New instance of the Smart Contract -> NUEW TOKEN
+		var tokenInstance = await theERC20.new({from: account, gas:2000000}).then(function(instanciaERC20){
+			// print addr of the new token 
+			console.log(">>>>>>>>> NEW TOKEN <<<<<<<<<<<");
+			console.log(instanciaERC20.address);
+			return (instanciaERC20);
+		});
+		//console.log("Contrato: " + tokenInstance);		
+
+		tokenInstance.setERC2Params(info.tokenName, info.symbol, info.tokenDecimals, info.tokenTotalSupply, info.tokenPrice, account,
 			{from: account, gas:200000}).then((res, err) => {
 				if(!err){
 					console.log(">>>>> PARAMs SET <<<<<<");
 				}else{
 					console.log(err);
 				}
-			});		
+		});
+
+		// Actualizamos array
+		arrayERC20.push(tokenInstance); //arrayERC20.push(contrato);
+		//console.log("array lenght" + arrayERC20.length);
+
+		
+		//var tok = await tokenInstance.tokenName();
+		console.log("TOKEN NAME " + await tokenInstance.tokenName());
+		
 
 		// EVENTO
 		// event Transfer(address indexed from, address indexed to, uint256 value)
-		var eventTransfer = contrato.Transfer();
+		var eventTransfer = tokenInstance.Transfer();//contrato.Transfer();
 		//console.log(eventTransfer);
 
 		// LANZAMOS WATCH
@@ -195,6 +214,10 @@ export default class App extends React.Component {
 		this.setState({
 			event_Transfer: eventTransfer,			
 		});
+
+		// RETURN THE ADDRESS OF THE CONTRACT CREATED ABOVE
+		console.log("TRAZA 1: " + tokenInstance.address);
+		return tokenInstance.address;
 	}
 
 

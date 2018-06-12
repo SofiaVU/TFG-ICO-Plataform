@@ -5,10 +5,10 @@ contract IcoDDBB   {
     struct ICO {
         uint id;
         string name;
-        string token;
+        address tokenContract;
         string openingDate;
         string closingDate;
-        uint tokenPrice;
+        //uint tokenPrice;
         address owner; 
         //address ERC2contract; // guardo la dir del contrato que crea el token de la ico asociado
     }
@@ -28,19 +28,21 @@ contract IcoDDBB   {
     /*
     * Constructor del Smart Contract
     */
-    function IcoDDBB() public {
+    //function IcoDDBB() public {
+    constructor() public {
         owner = msg.sender;
-    }    
+    }
       
     /*
     * Funcion registart una nueva ICO en la plataforma
     */
-    function register(string name, string token,  string opppening, string clossing, uint tokenPric) public {
+    function register(string name, address token,  string opppening, string clossing) public {
        
-       icoList[id_counter] = ICO(id_counter, name, token, opppening, clossing, tokenPric, msg.sender);
+       //icoList[id_counter] = ICO(id_counter, name, token, opppening, clossing, tokenPric, msg.sender);
+       icoList[id_counter] = ICO(id_counter, name, token, opppening, clossing, msg.sender);
        arrayIdICOs.push(id_counter);
        
-       Register(id_counter, name, opppening, clossing, msg.sender);// lanzamos evento 
+       emit Register(id_counter, name, opppening, clossing, msg.sender);// lanzamos evento 
        
        id_counter = id_counter + 1; // actualizamos contador de ICOs
     }
@@ -76,15 +78,15 @@ contract IcoDDBB   {
     /*
     * Devuleve el precio del token de la ICO dado su id
     */
-    function getTokenPriceByID(uint id) public constant returns (uint) {
+    /*function getTokenPriceByID(uint id) public constant returns (uint) {
         return icoList[id].tokenPrice;
-    }
+    }*/
     
     /*
     * Devuleve el nombre del token de la ICO dado su id
     */
-    function getTokenNameByID(uint id) public constant returns (string) {
-        return icoList[id].token;
+    function getTokenAddressByID(uint id) public constant returns (address) {
+        return icoList[id].tokenContract;
     }
     
     /*
