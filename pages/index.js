@@ -94,6 +94,7 @@ export default class App extends React.Component {
 	            this.setState({
 					lastICO: last.valueOf(),
 				});	
+				this.updateList();
 			}
 		});
 		console.log("eventReg watch has been started");
@@ -101,7 +102,8 @@ export default class App extends React.Component {
 		this.setState({
 			contrato: contrato,
 			event_Register: eventReg,			
-		});	
+		});
+		this.updateList();
 
 	}
 
@@ -185,6 +187,7 @@ export default class App extends React.Component {
 				//console.log(event);
 				console.log(">>>>> TANSFER MADE <<<<<");
 				console.log("Anamount of " + event.args.value + " tokens have been transfered to " + event.args.to);
+				updateList();
 			}
 		});
 		console.log("eventTransfer watch has been started");

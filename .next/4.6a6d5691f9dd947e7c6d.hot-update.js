@@ -154,6 +154,8 @@ function (_React$Component) {
                     _this2.setState({
                       lastICO: last.valueOf()
                     });
+
+                    _this2.updateList();
                   }
                 });
                 console.log("eventReg watch has been started");
@@ -161,8 +163,9 @@ function (_React$Component) {
                   contrato: contrato,
                   event_Register: eventReg
                 });
+                this.updateList();
 
-              case 9:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -262,6 +265,7 @@ function (_React$Component) {
 
                     console.log(">>>>> TANSFER MADE <<<<<");
                     console.log("Anamount of " + event.args.value + " tokens have been transfered to " + event.args.to);
+                    updateList();
                   }
                 });
                 console.log("eventTransfer watch has been started");
@@ -358,7 +362,7 @@ function (_React$Component) {
       return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 242
+          lineNumber: 245
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("link", {
         rel: "stylesheet",
@@ -367,19 +371,19 @@ function (_React$Component) {
         crossOrigin: "anonymous",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 243
+          lineNumber: 246
         }
       }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_bootstrap__["f" /* Navbar */], {
         inverse: true,
         collapseOnSelect: true,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 244
+          lineNumber: 247
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_bootstrap__["f" /* Navbar */].Header, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 245
+          lineNumber: 248
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("h1", {
         className: "cabName",
@@ -391,12 +395,12 @@ function (_React$Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 246
+          lineNumber: 249
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("strong", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 246
+          lineNumber: 249
         }
       }, "ICO PLATAFORM by svu")))), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_bootstrap__["b" /* Col */], {
         md: 5,
@@ -405,19 +409,19 @@ function (_React$Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 250
+          lineNumber: 253
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__components_Formu__["a" /* default */], {
         formCliked: this.formCliked,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 251
+          lineNumber: 254
         }
       })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_bootstrap__["b" /* Col */], {
         md: 7,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 254
+          lineNumber: 257
         }
       }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__components_IcoList__["a" /* default */], {
         ICOarray: this.state.id_Array,
@@ -426,7 +430,7 @@ function (_React$Component) {
         getERC20contract: this.executeTransfer,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 255
+          lineNumber: 258
         }
       })));
     }
@@ -485,4 +489,4 @@ function (_React$Component) {
 /***/ })
 
 })
-//# sourceMappingURL=4.9635e14855b83e34e5e2.hot-update.js.map
+//# sourceMappingURL=4.6a6d5691f9dd947e7c6d.hot-update.js.map
