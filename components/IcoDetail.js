@@ -24,6 +24,7 @@ export default class IcoDetail extends React.Component {
         this.getClosingDate = this.getClosingDate.bind(this);
         //this.getPrice = this.getPrice.bind(this);
         this.transfer = this.transfer.bind(this);
+        this.showInfo = this.showInfo.bind(this);
              
     }
 
@@ -81,9 +82,14 @@ export default class IcoDetail extends React.Component {
         // enviamos al componente lista el ID de la ICO sobre la que se ha pulsado
         //Ico list enviará a index el contratoERC20 de esta ico
         //console.log("TRAZA 1");
-        //console.log(this.props.ico.toNumber());
+        //console.log(this.props.ico.toNumber());        
         this.props.getID(this.props.ico.toNumber());
 
+    }
+
+    showInfo(){
+        this.props.navControl(2);
+        this.props.clickedICO(this.props.ico.toNumber());
     }
    
 
@@ -100,7 +106,7 @@ export default class IcoDetail extends React.Component {
         }
     	return(
     		<tr>
-                <td>{this.state.name}</td>
+                <td><a onClick={this.showInfo}>{this.state.name}</a></td>
                 <td>{this.state.openingDate}</td>
                 <td>{this.state.closingDate}</td>
                 <td>{this.state.token}</td>

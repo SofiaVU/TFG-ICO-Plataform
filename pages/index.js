@@ -9,6 +9,8 @@ import { default as contract } from 'truffle-contract'
 // REACT COMPONENTS
 import Formu from '../components/Formu'
 import IcoList from '../components/IcoList'
+import BarraNav from '../components/BarraNav'
+import InfoDetail from '../components/InfoDetail'
 
 
 
@@ -41,12 +43,16 @@ export default class App extends React.Component {
 			/*event_CreateToken: null, */
 			event_Transfer: null, 
 			id_Array: null,
+			nav: 0, 
+			icoClicked: null,
 		});
 		this.formCliked = this.formCliked.bind(this);
 		this.registerNewICO = this.registerNewICO.bind(this);
 		this.deployNewERC20 = this.deployNewERC20.bind(this);
 		this.updateList = this.updateList.bind(this);
 		this.executeTransfer = this.executeTransfer.bind(this);
+		this.navControl = this.navControl.bind(this);		
+		this.clickedICO = this.clickedICO.bind(this);
 	}
 
 	/*
@@ -125,6 +131,7 @@ export default class App extends React.Component {
 
 		// Actualizar listado de ICos
 		this.updateList();
+		this.setState({nav: 0});
 
 	}
 
@@ -206,7 +213,7 @@ export default class App extends React.Component {
 				//console.log(event);
 				console.log(">>>>> TANSFER MADE <<<<<");
 				console.log("Anamount of " + event.args.value + " tokens have been transfered to " + event.args.to);
-				updateList();
+				//updateList();
 			}
 		});
 		console.log("eventTransfer watch has been started");
@@ -239,11 +246,21 @@ export default class App extends React.Component {
 	/*
 	*
 	*/
-	executeTransfer(contract){
+	async executeTransfer(contractID){
 
-		//console.log("TRAZA 4");
-		//console.log(contract);
-		contract.transfer(account, 100, {from: account, gas:200000});
+		console.log("TRAZA 4");
+		console.log(contractID);
+
+		//contract.transfer(account, 100, {from: account, gas:200000});
+		//console.log(this.state.contrato)
+		var theContract = await this.state.contrato.getTokenAddressByID.call(contractID);
+
+		var theERC20 = contract(contractERC20);
+        theERC20.setProvider(web3.currentProvider);
+        console.log(theContract);
+
+        var instance = theERC20.at(theContract);
+        instance.transfer(account, 100, {from: account, gas:200000});
 
 	}
 
@@ -258,21 +275,88 @@ export default class App extends React.Component {
 		console.log("watch's have been tore down");
 	}
 
+	navControl(updatedState){
+		this.setState({nav: updatedState});
+
+	}
+	clickedICO(id) {
+		this.setState({icoClicked: id});
+	}
+
 
 	/*
 	* Metodo render que renderiza la vista ppal
 	*/
 	render() {
 
-		return(
+		switch (this.state.nav) {
+			case  0: 
+				return (
+					<div>
+						<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous" />
+						<BarraNav navControl={this.navControl}/>
+						<Col md={2} />
+						<Col xs={12} md={8}>
+							<IcoList ICOarray={this.state.id_Array}  
+								instancia={this.state.contrato} 
+								arrayERC20={arrayERC20} 
+								getERC20contract={this.executeTransfer}
+								navControl={this.navControl}
+								clickedICO={this.clickedICO}
+							/>
+						</Col>
+					</div>
+				);
+				break;
+
+			case 1:
+				return(
+					<div>
+						<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous" />
+						<BarraNav navControl={this.navControl}/>
+						<Col md={2} />
+						<Col xs={12} md={8}>
+							<Formu formCliked={this.formCliked}/>
+						</Col>
+					</div>
+				);
+				break;
+
+			case 2:
+				return(
+					<div>
+						<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous" />
+						<BarraNav navControl={this.navControl}/>
+						<Col md={2} />
+						<Col xs={12} md={8}>
+							<InfoDetail IcoID={this.state.icoClicked}/>
+						</Col>
+					</div>
+				);
+				break;
+
+			default:
+				return(
+					<div>
+						<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous" />
+						<BarraNav navControl={this.navControl}/>
+						<Col md={2} />
+						<Col xs={12} md={8}>
+							<IcoList ICOarray={this.state.id_Array}  
+								instancia={this.state.contrato} 
+								arrayERC20={arrayERC20} 
+								getERC20contract={this.executeTransfer}
+							/>
+						</Col>
+					</div>
+				);
+		}
+
+		/*return(
 			<div>
 				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous" />
-				<Navbar inverse collapseOnSelect>
-		            <Navbar.Header>
-		                <h1 className="cabName" style={{color: "white", fontSize: "4vh", float: "left", marginLeft:"-100px"}}><strong>ICO PLATAFORM by svu</strong></h1>
-		            </Navbar.Header>
-		        </Navbar>
-
+				<BarraNav navControl={this.navControl}/>
+				
 		        <Col md={5} style={{borderRight: "solid"}}>											
 					<Formu formCliked={this.formCliked}/>											
 				</Col>
@@ -282,7 +366,7 @@ export default class App extends React.Component {
 					</Col>
 
 			</div>
-		);
+		);*/
 
 	}
 }
