@@ -24,8 +24,7 @@ export default class BalancesList extends React.Component {
 	    			<td>{event.from}</td>
 	    			<td>{event.to}</td>
 	    			<td>{event.value}</td>
-	    			<td>{this.props.actual}</td>
-	    			<td>{this.props.total}</td>
+	    			<td>{event.aSupply}</td>
 	    		</tr>
 	    		
     		);
@@ -45,7 +44,6 @@ export default class BalancesList extends React.Component {
                             <th>To</th>
                             <th>Amount</th>
                             <th>Actual Supply</th>
-                            <th>Total Supply</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -58,3 +56,4 @@ export default class BalancesList extends React.Component {
     }
 
 }
+

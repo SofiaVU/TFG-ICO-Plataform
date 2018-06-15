@@ -26,7 +26,7 @@ contract createERC20_v2 {
 	 
 	 // EVENTOS
 	 //event CreateToken (string name, string symbol, uint decimals, uint256 totalSupply, uint256 princeInEther, address icoOwner);
-	 event Transfer(address indexed from, address indexed to, uint256 value); // notificamos que se ha realizado una transaccion
+	 event Transfer(address indexed from, address indexed to, uint256 value, uint256 aSupply); // notificamos que se ha realizado una transaccion
      //event Burn(address indexed from, uint256 value); // notificamos de la destruccion de tokens
 	
 	/*
@@ -86,7 +86,7 @@ contract createERC20_v2 {
         balances[_to] += _value;// Add the same to the recipient
         actualSupply -= _value;
         
-        emit Transfer(_from, _to, _value); // emit event
+        emit Transfer(_from, _to, _value, actualSupply); // emit event
         
         // Asserts are used to use static analysis to find bugs in your code. They should never fail
         assert(balances[_from] + balances[_to] == previousBalances);
@@ -120,7 +120,7 @@ contract createERC20_v2 {
         uint amount = msg.value / buyPrice; // calculates the amoun
         _transfer (this, msg.sender, amount);
         
-        emit Transfer(this, msg.sender, amount); // execute an event reflecting the change
+        emit Transfer(this, msg.sender, amount, actualSupply); // execute an event reflecting the change
     }
     
     /*

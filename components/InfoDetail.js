@@ -52,13 +52,13 @@ export default class IfoDetail extends React.Component {
         var events = await instancia.allEvents({fromBlock:0, toBlock: "latest"});
     	events.get((err, logs)=>{
     		
-    		console.log(logs[i]);
     		for (var i=0; i < logs.length; i++){
-    			console.log(i);
+    			
     			var miEvent = new Object();
     			miEvent.from = logs[i].args.from;
     			miEvent.to = logs[i].args.to;
     			miEvent.value = logs[i].args.value.toNumber();
+    			miEvent.aSupply = logs[i].args.aSupply.toNumber();
 
     			//console.log(miEvent.from); console.log(miEvent.to); console.log(miEvent.value);
     			miArray.push(miEvent);
@@ -119,12 +119,6 @@ export default class IfoDetail extends React.Component {
 
         var events = await instancia.allEvents({fromBlock:0, toBlock: "latest"});
     	events.get((err, logs)=>{
-    		/*var aux = JSON.stringify(logs);
-    		console.log(JSON.stringify(logs));
-    		this.setState({
-    			prueba: aux,
-    		});
-    		return aux;*/
     		console.log(logs[i]);
     		for (var i=0; i < logs.length; i++){
     			console.log(i);
@@ -175,11 +169,8 @@ export default class IfoDetail extends React.Component {
 					</Col>
 				</Row>
 				<Row>
-					<h1>BALANCES</h1>
-					<BalancesList arrayEvents={this.state.arrayEvents} 
-						total={this.state.totalSupply} 
-						actual={this.state.actualSupply} 
-					/>
+					<h1>TOKEN BALANCES</h1>
+					<BalancesList arrayEvents={this.state.arrayEvents} />
  				</Row>
 				
 			</div>
