@@ -9,7 +9,7 @@ contract createERC20_v2 {
      }
    	 string public tokenName; // nombre de nuestra criptomoneda
 	 string public symbol;// le designamos un simbolo
-	 //uint public decimals;  // le asignamos el numero de decimales - ether usa 18 decimales
+	 uint public decimals;  // le asignamos el numero de decimales - ether usa 18 decimales
 	 uint256 public totalSupply; // total supply of our token 
 
 	 uint256 public buyPrice;
@@ -25,9 +25,9 @@ contract createERC20_v2 {
 	 
 	 
 	 // EVENTOS
-	 event CreateToken (string name, string symbol, uint decimals, uint256 totalSupply, uint256 princeInEther, address icoOwner);
+	 //event CreateToken (string name, string symbol, uint decimals, uint256 totalSupply, uint256 princeInEther, address icoOwner);
 	 event Transfer(address indexed from, address indexed to, uint256 value); // notificamos que se ha realizado una transaccion
-     event Burn(address indexed from, uint256 value); // notificamos de la destruccion de tokens
+     //event Burn(address indexed from, uint256 value); // notificamos de la destruccion de tokens
 	
 	/*
 	* the constructor function of our Token smart contract
@@ -44,6 +44,7 @@ contract createERC20_v2 {
 	     
 	     tokenName = tName;
 	     symbol = tSymbol;
+	     decimals = nDecimals;
 	     // totalSupply = totalSup;// we create totalSup=100 tokens w/ nDecimals=2 decimals
 	     totalSupply = initialSup * 10 * uint256(nDecimals); // 
 	     buyPrice = p_buy;
@@ -54,7 +55,7 @@ contract createERC20_v2 {
 	     
 	     balances[icoOwner] = totalSupply; // es lo mismo poner tokenOwner que msgSender por como está progrmado???
 	     
-	     emit CreateToken(tName, tSymbol, nDecimals, initialSup, p_buy, owner);
+	     //emit CreateToken(tName, tSymbol, nDecimals, initialSup, p_buy, owner);
 	 }
 	 
 	 /*
@@ -83,6 +84,7 @@ contract createERC20_v2 {
         
         balances[_from] -= _value; // Subtract from the sender
         balances[_to] += _value;// Add the same to the recipient
+        actualSupply -= _value;
         
         emit Transfer(_from, _to, _value); // emit event
         

@@ -329,7 +329,9 @@ export default class App extends React.Component {
 						<BarraNav navControl={this.navControl}/>
 						<Col md={2} />
 						<Col xs={12} md={8}>
-							<InfoDetail IcoID={this.state.icoClicked}/>
+							<InfoDetail IcoID={this.state.icoClicked}
+								contrato={this.state.contrato}
+							/>
 						</Col>
 					</div>
 				);
