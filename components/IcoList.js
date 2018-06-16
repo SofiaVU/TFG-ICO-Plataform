@@ -18,14 +18,17 @@ export default class IcoList extends React.Component {
     /*
     *
     */
-    getIDfromDetail(id){
+    getIDfromDetail(id, amount){
 
         // Recibe de IcoDetail el id de la ICO sobre la que se ha pulsado
+        // y la cantidad de tokens a comprar introducida 
         // envia a index el contratoERC20 de dicha ICO
-        console.log("TRAZA 2");
-        console.log(id);
+
+        //console.log("TRAZA 2");
+        //console.log(id);
+
         //this.props.getERC20contract(this.props.arrayERC20[id]);
-        this.props.getERC20contract(id);
+        this.props.getERC20contract(id, amount);
         //console.log("TRAZA 3");
         //console.log(this.props.arrayERC20[id]);
         //console.log(this.props.arrayERC20);

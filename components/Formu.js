@@ -12,6 +12,7 @@ export default class Formu extends React.Component {
         super(props);
         this.createICO = this.createICO.bind(this);
         this.handleDates = this.handleDates.bind(this);
+        this.cancelPressed = this.cancelPressed.bind(this);
     }
 
     /*
@@ -99,8 +100,10 @@ export default class Formu extends React.Component {
 
         return true;
 
+    }
 
-
+    cancelPressed(){
+        this.props.cancel(0);
     }
 
 
@@ -156,6 +159,7 @@ export default class Formu extends React.Component {
                 </form>
 
                 <Button className="myButton" onClick={this.createICO}>CREATE ICO</Button>
+                <Button className="myButton" onClick={this.cancelPressed}>CANCEL</Button>
 
             </div>
 

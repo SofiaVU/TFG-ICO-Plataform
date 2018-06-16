@@ -5,12 +5,15 @@ import { default as Web3} from 'web3';
 import contractArtifact from '../build/contracts/IcoDDBB.json'
 import contractERC20 from '../build/contracts/createERC20_v2.json'
 import { default as contract } from 'truffle-contract'
+//import ReactDom from 'react-dom'
+//import Popup from 'react-popup'
 
 // REACT COMPONENTS
 import Formu from '../components/Formu'
 import IcoList from '../components/IcoList'
 import BarraNav from '../components/BarraNav'
 import InfoDetail from '../components/InfoDetail'
+//import Prompt from '../components/Prompt'
 
 
 
@@ -44,7 +47,7 @@ export default class App extends React.Component {
 			event_Transfer: null, 
 			id_Array: null,
 			nav: 0, 
-			icoClicked: null,
+			icoClicked: null,		
 		});
 		this.formCliked = this.formCliked.bind(this);
 		this.registerNewICO = this.registerNewICO.bind(this);
@@ -190,7 +193,7 @@ export default class App extends React.Component {
 		});
 
 		// Actualizamos array
-		arrayERC20.push(tokenInstance); //arrayERC20.push(contrato);
+		arrayERC20.push(tokenInstance);
 		//console.log("array lenght" + arrayERC20.length);
 
 		
@@ -212,11 +215,10 @@ export default class App extends React.Component {
 				console.log("This is the Transfer event!");
 				//console.log(event);
 				console.log(">>>>> TANSFER MADE <<<<<");
-				console.log("Anamount of " + event.args.value + " tokens have been transfered to " + event.args.to);
-				//updateList();
+				console.log("Anamount of " + event.args.value + " tokens have been transfered to " + event.args.to);	
 			}
 		});
-		console.log("eventTransfer watch has been started");
+		console.log("eventTransfer watch has been started"); 
 
 		this.setState({
 			event_Transfer: eventTransfer,			
@@ -237,16 +239,14 @@ export default class App extends React.Component {
 		idArray = await this.state.contrato.getIdIcos.call();
 		//console.log("ARRAY");
 		//console.log(idArray);
-
 		this.setState({ id_Array: idArray});
-
 	}
 
 
 	/*
 	*
 	*/
-	async executeTransfer(contractID){
+	async executeTransfer(contractID, amount){
 
 		console.log("TRAZA 4");
 		console.log(contractID);
@@ -260,8 +260,8 @@ export default class App extends React.Component {
         console.log(theContract);
 
         var instance = theERC20.at(theContract);
-        instance.transfer(account, 100, {from: account, gas:200000});
-
+        //instance.transfer(account, 100, {from: account, gas:200000});
+        instance.transfer(account, amount, {from: account, gas:200000}); 
 	}
 
 	/*
@@ -316,7 +316,7 @@ export default class App extends React.Component {
 						<BarraNav navControl={this.navControl}/>
 						<Col md={2} />
 						<Col xs={12} md={8}>
-							<Formu formCliked={this.formCliked}/>
+							<Formu formCliked={this.formCliked} cancel={this.navControl}/>
 						</Col>
 					</div>
 				);
@@ -331,6 +331,7 @@ export default class App extends React.Component {
 						<Col xs={12} md={8}>
 							<InfoDetail IcoID={this.state.icoClicked}
 								contrato={this.state.contrato}
+								transferMade={this.state.transferMade}
 							/>
 						</Col>
 					</div>
@@ -362,11 +363,9 @@ export default class App extends React.Component {
 		        <Col md={5} style={{borderRight: "solid"}}>											
 					<Formu formCliked={this.formCliked}/>											
 				</Col>
-
 				<Col md={7} >
 						<IcoList ICOarray={this.state.id_Array}  instancia={this.state.contrato} arrayERC20={arrayERC20} getERC20contract={this.executeTransfer}/>
 					</Col>
-
 			</div>
 		);*/
 

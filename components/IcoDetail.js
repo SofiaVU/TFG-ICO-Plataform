@@ -1,5 +1,7 @@
 import React from 'react';
-import {ListGroupItem, Button} from 'react-bootstrap';
+import ReactDOM from 'react-dom';
+
+import {ListGroupItem, Button, FormGroup, FormControl} from 'react-bootstrap';
 import { default as contract } from 'truffle-contract';
 
 import { default as Web3} from 'web3'
@@ -82,8 +84,10 @@ export default class IcoDetail extends React.Component {
         // enviamos al componente lista el ID de la ICO sobre la que se ha pulsado
         //Ico list enviará a index el contratoERC20 de esta ico
         //console.log("TRAZA 1");
-        //console.log(this.props.ico.toNumber());        
-        this.props.getID(this.props.ico.toNumber());
+        //console.log(this.props.ico.toNumber()); 
+        var amount= ReactDOM.findDOMNode(this.refs.amount).value;
+        console.log(amount);        
+        this.props.getID(this.props.ico.toNumber(), amount);
 
     }
 
@@ -111,7 +115,12 @@ export default class IcoDetail extends React.Component {
                 <td>{this.state.closingDate}</td>
                 <td>{this.state.token}</td>
                 <td>{this.state.price} ethers/toker</td>
-                <td><Button onClick={this.transfer}>Buy tokens</Button></td>
+                <td>                    
+                    <FormGroup id="formControlsText">
+                        <FormControl ref="amount" type="number" placeholder="Amount" />
+                    </FormGroup>
+                    <Button onClick={this.transfer}>Buy tokens</Button>
+                </td>
             </tr>
     	);
 	}

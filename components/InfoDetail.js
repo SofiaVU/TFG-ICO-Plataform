@@ -50,8 +50,7 @@ export default class IfoDetail extends React.Component {
         var miArray = new Array();
 
         var events = await instancia.allEvents({fromBlock:0, toBlock: "latest"});
-    	events.get((err, logs)=>{
-    		
+    	events.get((err, logs)=>{    		
     		for (var i=0; i < logs.length; i++){
     			
     			var miEvent = new Object();
@@ -62,11 +61,13 @@ export default class IfoDetail extends React.Component {
 
     			//console.log(miEvent.from); console.log(miEvent.to); console.log(miEvent.value);
     			miArray.push(miEvent);
-
     		}
     	});
     	console.log(miArray);
-    	this.setState({arrayEvents: miArray});
+    	this.setState({
+    		arrayEvents: miArray,
+    		instance: instancia,
+    	});
     }
 
     async getInfoFromICOBB() {
@@ -112,34 +113,34 @@ export default class IfoDetail extends React.Component {
 
     }
 
-    async getAllPastEvents(instancia){
-    	//console.log("AAAAAQUIIII");
-    	
+    async getAllPastEvents(){
+    	console.log("MIIIERDA");
     	var miArray = new Array();
+    	var instancia;
 
-        var events = await instancia.allEvents({fromBlock:0, toBlock: "latest"});
+    	while (this.state.instance == null){}
+
+        var events = await this.state.instance.allEvents({fromBlock:0, toBlock: "latest"});
     	events.get((err, logs)=>{
-    		console.log(logs[i]);
     		for (var i=0; i < logs.length; i++){
-    			console.log(i);
+    			
     			var miEvent = new Object();
     			miEvent.from = logs[i].args.from;
     			miEvent.to = logs[i].args.to;
     			miEvent.value = logs[i].args.value.toNumber();
+    			miEvent.aSupply = logs[i].args.aSupply.toNumber();
 
-    			console.log(miEvent.from);
-    			console.log(miEvent.to);
-    			console.log(miEvent.value);
+    			//console.log(miEvent.from); console.log(miEvent.to); console.log(miEvent.value);
     			miArray.push(miEvent);
-
     		}
     	});
     	console.log(miArray);
-    	this.setState({arrayEvents: miArray});
+    	this.setState({arrayEvents: miArray});    	
     }
 
 	render(){
 		this.getInfoFromICOBB();
+		//this.getAllPastEvents();
 		return(
 			<div>
 				<Row className="show-grid">
